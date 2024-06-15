@@ -8,25 +8,40 @@ const UserLoginSchema = new Schema(
         },
         email: {
             type: String,
-            unique: true,
             required: true,
+            unique: true,
         },
         password: {
             type: String,
             required: true,
         },
-        imageURL: {
-            type: String,
-            default: '',
-        },
         isAdmin: {
             type: Boolean,
             default: false,
         },
+        imageURL: {
+            type: String,
+            default: null,
+        },
         lastLogin: {
             type: Date,
-            default: null,
-        }
+        },
+        otp: {
+            type: String,
+        },
+        otpExpires: {
+            type: Date,
+        },
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
+        resetPasswordToken: {
+            type: String,
+        },
+        resetPasswordExpires: {
+            type: Date,
+        },
     },
     {
         toJSON: {

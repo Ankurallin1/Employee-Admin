@@ -11,6 +11,15 @@ export const logout = () => {
     localStorage.removeItem('user');
 
 }
+export const resetPassword=async(password,token)=>{
+    const {data}=await axios.post('http://localhost:5000/api/users/reset-password',{password,token});
+    localStorage.setItem('user', JSON.stringify(data));
+    return data;
+}
+export const forgotPassword=async(email)=>{
+    const {data}=await axios.post('http://localhost:5000/api/users/forgot-password',{email});
+    return data;
+}
 export const getAdminData=async()=>{
     const {data}=await axios.get('http://localhost:5000/api/users/admin',{headers:{
         authorization:localStorage.getItem('user')
@@ -62,7 +71,16 @@ export const updateProfile=async(updateData)=>{
 }
 export const register = async (registerData) => {
     const { data } = await axios.post('http://localhost:5000/api/users/register', registerData);
-    localStorage.setItem('user', JSON.stringify(data));
+    // console.log(data);
     return data;
 
+}
+export const resendOTP = async (email) => {
+    const { data } = await axios.post('http://localhost:5000/api/users/resend-otp', { email });
+    return data;
+}
+export const VerifyUser = async (email,otp) => {
+    const { data } = await axios.post('http://localhost:5000/api/users/verify-otp', { email,otp });
+    localStorage.setItem('user', JSON.stringify(data));
+    return data;
 }

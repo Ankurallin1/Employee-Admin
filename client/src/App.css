@@ -248,3 +248,80 @@ input[type="text"] {
 .entry-item p {
   margin: 5px 0;
 }
+
+
+.verify-email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Set height to full viewport height */
+}
+.verify-email-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.verify-email-form-container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.verify-email-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.verify-email-text {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.verify-email-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  outline: none;
+}
+
+.verify-email-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+.verify-email-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+.forgot-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+}
+
+
+.unactive
+{
+  pointer-events: none;
+  opacity: 0.5;
+}

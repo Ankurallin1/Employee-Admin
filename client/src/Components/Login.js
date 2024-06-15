@@ -40,6 +40,7 @@ const LoginPage = () => {
         <input type="password" {...register("password")} placeholder="Password" />
         <button type="submit">Login</button>
       </form>
+      <p> <Link to='/forgot-pass'>Forgot password?</Link></p>
       <p>Not Registered yet? <Link to='/userregister'>Register</Link></p>
     </div>
   );

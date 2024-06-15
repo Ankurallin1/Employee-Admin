@@ -23,7 +23,7 @@ const RegisterPage = () => {
 
       const success = await registerUser(data);
       if (success) {
-        navigate('/');
+        navigate('/verify-email');
       }
     } catch (error) {
       toast.error(error.errors[0].message);
