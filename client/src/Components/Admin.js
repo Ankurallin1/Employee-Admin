@@ -44,7 +44,7 @@ const Admin = () => {
                             <td className="admin-cell">{employee.email}</td>
                             <td className="admin-cell">
                                 <div className="employee-profile" onClick={() => handleProfileClick(employee)}>
-                                    <img className='employee_admin-profile' src={employee.imageURL ? `http://localhost:5000/${employee.imageURL}` : DefaultProfile} alt='profile' />
+                                    <img className='employee_admin-profile' src={employee.imageURL ? `${employee.imageURL}` : DefaultProfile} alt='profile' />
                                 </div>
                             </td>
                             <td className="admin-cell">{employee.lastLogin ? new Date(employee.lastLogin).toLocaleString() : '-'}</td>

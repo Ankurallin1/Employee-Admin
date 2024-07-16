@@ -26,6 +26,9 @@ const UserLoginSchema = new Schema(
         lastLogin: {
             type: Date,
         },
+        imagePublicId: {
+            type: String,
+        },
         otp: {
             type: String,
         },

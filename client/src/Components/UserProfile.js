@@ -49,7 +49,7 @@ const UserProfile = () => {
         <div className="profile_wrapper">
             <div className="profile_content">
                 <div className="profile_image">
-                    <img src={user.imageURL ? `http://localhost:5000/${user.imageURL}` : DefaultProfile} alt='profile' />
+                    <img src={user.imageURL ? `${user.imageURL}` : DefaultProfile} alt='profile' />
 
                     <label htmlFor='file-upload'>
                         <IoMdAddCircle size={'25px'} style={{ cursor: 'pointer' }} />

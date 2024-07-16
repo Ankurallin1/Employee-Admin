@@ -5,13 +5,12 @@ const handler = require('express-async-handler');
 const { UserAuthModel } = require('../Models/UserLoginSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
 const path = require('path');
 const verifyUser = require('../middleware/auth');
 const salt_rounds = 4;
 const multer = require('multer');
 const { sendVerificationEmail } = require('../Helper/EmailServices');
-
+const cloudinary = require('../Helper/Cloudinary');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'uploads/');
@@ -38,12 +37,12 @@ Router.delete('/deleteemployee/:id', verifyUser, handler(async (req, res) => {
         }
 
         if (userToDelete.imageURL) {
-            const imagePath = path.join(__dirname, '..', userToDelete.imageURL);
-            fs.unlink(imagePath, (err) => {
-                if (err) {
-                    console.error(err);
+            const publicId = userToDelete.imagePublicId;
+            await cloudinary.uploader.destroy(publicId, (error, result) => {
+                if (error) {
+                    console.error('Failed to delete image from Cloudinary:', error);
                 } else {
-                    console.log('Image deleted successfully');
+                    console.log('Image deleted successfully from Cloudinary:', result);
                 }
             });
         }
@@ -87,18 +86,15 @@ Router.get('/admin', verifyUser, handler(async (req, res) => {
 
         res.status(200).json(allUsers);
     } catch (err) {
-        console.error(err);
         res.status(500).send("Internal server error");
     }
 }));
 
 Router.get('/userexist/:id', handler(async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     try {
         const findUser = await UserAuthModel.findOne({ _id: id });
         if (!findUser) {
-            console.log("not found");
             res.json(false);
         } else {
             res.json(true);
@@ -107,38 +103,60 @@ Router.get('/userexist/:id', handler(async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 }));
+
 Router.post('/update', verifyUser, upload.single('image'), handler(async (req, res) => {
     const { name } = req.body;
-    let { imageURL } = req.body;
-    const userId = JSON.stringify(req.user._id).slice(1, -1);
+    let imageURL = req.body.imageURL;
+    const userId = req.user._id;
+
     try {
-
         if (req.file) {
-            imageURL = req.file.path;
-        }
-        const imagePath = path.join(__dirname, '..', req.user.imageURL);
-        fs.unlink(imagePath, (err) => {
-            if (err) {
-                console.error(imagePath);
-            } else {
-                console.log('Image deleted successfully');
+            const currentUser = await UserAuthModel.findById(userId);
+
+            if (currentUser.imagePublicId) {
+                await cloudinary.uploader.destroy(currentUser.imagePublicId, (error, result) => {
+                    if (error) {
+                        console.error('Failed to delete old image from Cloudinary:', error);
+                    } else {
+                        console.log('Old image deleted successfully from Cloudinary:', result);
+                    }
+                });
             }
-        })
-        const updatedUser = await UserAuthModel.findByIdAndUpdate(
-            userId,
-            { name, imageURL },
-            { new: true }
-        );
 
-        if (!updatedUser) {
-            return res.status(404).send("User not found");
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'user_images'
+            });
+            imageURL = result.secure_url;
+            const imagePublicId = result.public_id;
+
+            
+
+            currentUser.name = name;
+            currentUser.imageURL = imageURL;
+            currentUser.imagePublicId = imagePublicId;
+
+            await currentUser.save();
+            res.status(200).json(currentUser);
+        } else {
+            const updatedUser = await UserAuthModel.findByIdAndUpdate(
+                userId,
+                { name },
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).send("User not found");
+            }
+
+            res.status(200).json(updatedUser);
         }
-
-        res.status(200).json(updatedUser);
     } catch (error) {
+        console.error(error);
         res.status(500).send("Internal Server Error");
     }
 }));
+
+
 Router.post('/register', handler(async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -271,7 +289,6 @@ Router.post('/reset-password', handler(async (req, res) => {
 }));
 
 const generateToken = user => {
-    console.log(user);
     const token = jwt.sign(
         {
             id: user.id,

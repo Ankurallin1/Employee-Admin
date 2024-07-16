@@ -25,7 +25,7 @@ const Navbar = () => {
                             
                             <li className="nav-item">
                             {
-                    user &&   <Link className="navbar-brand" to='/profile'><img className='nav_profile' src={user.imageURL ? `http://localhost:5000/${user.imageURL}` : DefaultProfile} alt='profile' />{user.name}</Link>
+                    user &&   <Link className="navbar-brand" to='/profile'><img className='nav_profile' src={user.imageURL ? `${user.imageURL}` : DefaultProfile} alt='profile' />{user.name}</Link>
                   }
                             </li>
 
