@@ -35,7 +35,7 @@ const Register = () => {
 
         const { name, email, work, add, mobile, desc, age } = inpval;
 
-        const res = await fetch("http://localhost:5000/newuser", {
+        const res = await fetch("${process.env.REACT_APP_API_URL}/newuser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

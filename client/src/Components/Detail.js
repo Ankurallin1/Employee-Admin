@@ -19,7 +19,7 @@ const Details = () => {
     const [unauthenticated, setUnauthenticated] = useState(false);
 
     const getdata = async (e) => {
-        const res = await fetch(`http://localhost:5000/getuser/${id}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/getuser/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 export const getUser = () =>
     localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 export const login = async (email, password) => {
-    const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/login`, { email, password });
     localStorage.setItem('user', JSON.stringify(data));
     return data;
 }
@@ -12,22 +12,22 @@ export const logout = () => {
 
 }
 export const resetPassword=async(password,token)=>{
-    const {data}=await axios.post('http://localhost:5000/api/users/reset-password',{password,token});
+    const {data}=await axios.post(`${process.env.REACT_APP_API_URL}/api/users/reset-password`,{password,token});
     localStorage.setItem('user', JSON.stringify(data));
     return data;
 }
 export const forgotPassword=async(email)=>{
-    const {data}=await axios.post('http://localhost:5000/api/users/forgot-password',{email});
+    const {data}=await axios.post(`${process.env.REACT_APP_API_URL}/api/users/forgot-password`,{email});
     return data;
 }
 export const getAdminData=async()=>{
-    const {data}=await axios.get('http://localhost:5000/api/users/admin',{headers:{
+    const {data}=await axios.get(`${process.env.REACT_APP_API_URL}/api/users/admin`,{headers:{
         authorization:localStorage.getItem('user')
     }});
     return data;
 }
 export const getdata=async()=>{
-    const {data}=await axios.get('http://localhost:5000/getdata',{headers:{
+    const {data}=await axios.get(`${process.env.REACT_APP_API_URL}/getdata`,{headers:{
         authorization:localStorage.getItem('user')
     }});
     return data;
@@ -36,7 +36,7 @@ export const getdata=async()=>{
 
 export const DeleteEmployee = async (id) => {
     try {
-        const { data } = await axios.delete(`http://localhost:5000/api/users/deleteemployee/${id}`, {
+        const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/users/deleteemployee/${id}`, {
             headers: {
                 Authorization: localStorage.getItem('user') 
             }
@@ -52,7 +52,7 @@ export const DeleteEmployee = async (id) => {
 
 export const UserExist=async(id)=>{
     try {
-        const { data } = await axios.get(`http://localhost:5000/api/users/userexist/${id}`);
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/userexist/${id}`);
         return data;
     } catch (error) {
         toast.error(error);
@@ -60,7 +60,7 @@ export const UserExist=async(id)=>{
 }
 
 export const updateProfile=async(updateData)=>{
-    let {data}=await axios.post('http://localhost:5000/api/users/update',updateData,{headers:{
+    let {data}=await axios.post(`${process.env.REACT_APP_API_URL}/api/users/update`,updateData,{headers:{
         authorization:localStorage.getItem('user')
     }});
     let update=JSON.parse(localStorage.getItem('user'));
@@ -70,17 +70,17 @@ export const updateProfile=async(updateData)=>{
 
 }
 export const register = async (registerData) => {
-    const { data } = await axios.post('http://localhost:5000/api/users/register', registerData);
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`, registerData);
     // console.log(data);
     return data;
 
 }
 export const resendOTP = async (email) => {
-    const { data } = await axios.post('http://localhost:5000/api/users/resend-otp', { email });
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/resend-otp`, { email });
     return data;
 }
 export const VerifyUser = async (email,otp) => {
-    const { data } = await axios.post('http://localhost:5000/api/users/verify-otp', { email,otp });
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/verify-otp`, { email,otp });
     localStorage.setItem('user', JSON.stringify(data));
     return data;
 }

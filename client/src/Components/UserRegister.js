@@ -16,7 +16,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const { registerUser } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm();
-
+  console.log(process.env.REACT_APP_API_URL);
   const onSubmit = async (data) => {
     try {
       schema.parse(data);

@@ -32,7 +32,7 @@ const Edit = () => {
     id = id.substring(1);
 
     const getdata = async (e) => {
-        const res = await fetch(`http://localhost:5000/getuser/${id}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/getuser/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const Edit = () => {
     const updateuser = async (e) => {
         e.preventDefault();
         const { name, email, work, add, mobile, desc, age } = inpval;
-        const res2 = await fetch(`http://localhost:5000/updateuser/${id}`, {
+        const res2 = await fetch(`${process.env.REACT_APP_API_URL}/updateuser/${id}`, {
             method: "PATCH",
             // mode: "cors",
             headers: {
