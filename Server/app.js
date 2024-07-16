@@ -8,7 +8,6 @@ const Router_crud = require('./Routes/Router');
 const UserLogin = require('./Routes/userRoutes')
 require('./DB/Connect');
 app.use(express.json());
-app.use('/uploads',express.static('uploads'));
 app.use(cors(
     {
         credentials: true,

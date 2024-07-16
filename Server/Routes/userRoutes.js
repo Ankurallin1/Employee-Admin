@@ -12,9 +12,7 @@ const multer = require('multer');
 const { sendVerificationEmail } = require('../Helper/EmailServices');
 const cloudinary = require('../Helper/Cloudinary');
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-    },
+    
     filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname);
     }
