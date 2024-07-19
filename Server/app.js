@@ -2,8 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const rateLimit = require('express-rate-limit');
-const slowDown = require('express-slow-down');
 const cors = require('cors');
 const port = 5000;
 const rateLimit = require('express-rate-limit');
